@@ -18,6 +18,6 @@ jobs:
         run: pip3 install diligence-fuzzing
 
       - name: Run fuzz foundry
-        with:
+        env:
           fuzz_api_key: ${{ secrets.FUZZ_API_KEY }}
         run: fuzz forge test
