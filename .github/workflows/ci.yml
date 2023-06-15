@@ -14,18 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install diligence fuzzing
-        run: pip3 install diligence-fuzzing
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: Install eth-scribble ganache
-        run: npm i -g eth-scribble ganache
-
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install diligence fuzzing
+        run: pip3 install diligence-fuzzing
 
       - name: Run fuzz foundry
         env:
