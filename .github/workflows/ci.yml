@@ -12,15 +12,12 @@ jobs:
   run-ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
+      - name: Install diligence fuzzing
+        run: pip3 install diligence-fuzzing
+
+      - name: Run fuzz foundry
         with:
-          version: nightly
-
-      - name: Install deps
-        run: forge install
-
-      - name: Run tests
-        run: forge test
+          fuzz_api_key: ${{ secrets.FUZZ_API_KEY }}
+        run: fuzz forge test
