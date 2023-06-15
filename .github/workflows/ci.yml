@@ -17,6 +17,13 @@ jobs:
       - name: Install diligence fuzzing
         run: pip3 install diligence-fuzzing
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install eth-scribble ganache
+        run: npm i -g eth-scribble ganache
+
       - name: Run fuzz foundry
         env:
           fuzz_api_key: ${{ secrets.FUZZ_API_KEY }}
