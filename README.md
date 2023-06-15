@@ -1,6 +1,6 @@
 # Decentralized Summation System
-![Build Status](https://github.com/counterdao/dss/actions/workflows/.github/workflows/ci.yml/badge.svg?branch=main)
 
+![Build Status](https://github.com/counterdao/dss/actions/workflows/.github/workflows/ci.yml/badge.svg?branch=main)
 
 This repository contains the core smart contract code for the Decentralized
 Summation System (`dss`). This is a high level description of the system, assuming
@@ -14,22 +14,24 @@ familiarity with the basic counting mechanics as described in the
 ## Design Considerations
 
 - Client agnostic
-  - system doesn't care about the implementation of external contracts
-  - can operate entirely independently of other systems
+    - system doesn't care about the implementation of external contracts
+    - can operate entirely independently of other systems
 
 - Verifiable
-  - designed from the bottom up to be amenable to formal verification
-  - the core ICV and counter database makes *no* external calls and
-    contains *no* precision loss (i.e. no division)
+    - designed from the bottom up to be amenable to formal verification
+    - the core ICV and counter database makes *no* external calls and
+      contains *no* precision loss (i.e. no division)
 
 - Modular
-  - multi contract core system is made to be very adaptable to changing
-    requirements.
-  - allows for the addition of novel counter types (e.g. count-by-threes, fibonacci)
+    - multi contract core system is made to be very adaptable to changing
+      requirements.
+    - allows for the addition of novel counter types (e.g. count-by-threes, fibonacci)
 
 ## Usage
 
-See the test cases in [`dss.t.sol`](https://github.com/counterdao/dss/blob/30569b93c86f2ca70dcd45f3cb374829ac7abbfc/test/dss.t.sol#L76) for annotated examples that demonstrate how to interact with `dss` from your own contracts.
+See the test cases
+in [`dss.t.sol`](https://github.com/counterdao/dss/blob/30569b93c86f2ca70dcd45f3cb374829ac7abbfc/test/dss.t.sol#L76) for
+annotated examples that demonstrate how to interact with `dss` from your own contracts.
 
 ## Sum — Counter Engine
 
@@ -40,6 +42,7 @@ sense, the rules in the `Sum` can be viewed as the constitution of `dss`.
 
 Within the `Sum` an `Inc` represents a stored ICV (Integer Counter Value). The
 attributes of an `Inc` are:
+
 - `net`: The counter value.
 - `tab`: The sum of all counter increment values.
 - `tax`: The sum of all counter decrement values.
@@ -47,19 +50,21 @@ attributes of an `Inc` are:
 - `hop`: The counter's increment unit.
 
 Functions:
+
 - `boot`: Register a new Counter.
 - `zero`: Reset a Counter.
 - `frob`: General function for manipulating a Counter.
-  - `sinc`: "Sign of increment." 1 for increment, -1 for decrement.
+    - `sinc`: "Sign of increment." 1 for increment, -1 for decrement.
 - `wish`: Check whether an address is allowed to modify another address's Counter.
-  - `hope`: enable `wish` for a pair of addresses.
-  - `nope`: disable `wish` for a pair of addresses.
+    - `hope`: enable `wish` for a pair of addresses.
+    - `nope`: disable `wish` for a pair of addresses.
 
 ## Use — Counter creation module
 
 The `Use` creates new Counters.
 
 Functions:
+
 - `use`: Initializes a new `Inc` associated with the caller's address.
 
 ## Hitter — Increment module
@@ -67,6 +72,7 @@ Functions:
 The `Hitter` is used to increment an initialized Counter.
 
 Functions:
+
 - `hit`: Increases a Counter's `net` and `tab` by one `hop`. Increments `num`.
 
 ## Dipper — Decrement module
@@ -74,6 +80,7 @@ Functions:
 The `Dipper` is used to decrement an initialized Counter.
 
 Functions:
+
 - `dip`: Decreases a Counter's `net` and `tax` by one `hop`. Increments `num`.
 
 ## Nil — Reset module
@@ -81,6 +88,7 @@ Functions:
 `Nil` is used to reset an initialized counter.
 
 Functions:
+
 - `nil`: Resets a Counter's `net`, `tab`, and `tax` to zero. Increments `num`.
 
 ## Spy — Counter read module
@@ -88,6 +96,7 @@ Functions:
 The `Spy` is used to read counter values.
 
 Functions:
+
 - `see`: Returns a Counter's `net`. View only function.
 
 ## DSS — Protocol interface module
@@ -96,14 +105,15 @@ The `DSS` module is an interface contract that composes other modules in
 the `dss` system and provides a unified interface to the protocol.
 
 Functions:
+
 - `build`: Create a new `DSSProxy` with this `DSS` module as its target implementation. Authorizes
   `msg.sender` to interact with the proxy.
-  - `wit`: A `bytes32` salt for the `create2` constructor.
-  - `god`: Proxy owner address, authorized to update the implementation and manage `wards`.
+    - `wit`: A `bytes32` salt for the `create2` constructor.
+    - `god`: Proxy owner address, authorized to update the implementation and manage `wards`.
 - `scry`: Return the deterministic address of a `DSSProxy`.
-  - `guy`: `DSSProxy` deployer address.
-  - `wit`: `bytes32` salt.
-  - `god`: Proxy owner address.
+    - `guy`: `DSSProxy` deployer address.
+    - `wit`: `bytes32` salt.
+    - `god`: Proxy owner address.
 - `bless`: Authorize the core `dss` modules (`Use`, `Hitter`, `Dipper`, and `Nil`).
 - `use`: Create a new Counter.
 - `see`: Read a Counter value.
@@ -131,6 +141,7 @@ that may be shared by multiple contracts simultaneously, or used by many differe
 over time.
 
 Functions:
+
 - `upgrade`: Set a new address as the target implementation. Only callable by the proxy `owner`
 - `rely`: Authorize an address to call the proxy and interact with a Counter.
 - `deny`: Revoke authorization from an address.
@@ -147,6 +158,8 @@ the DSS protocol and the systems that depend on it.
 
 ## Acknowledgments
 
-- [shrugs](https://github.com/shrugs), author of the one and only[`Counters.sol`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Counters.sol).
-- [karmacoma](https://github.com/karmacoma-eth), for creating [`enterprise-counters`](https://github.com/karmacoma-eth/enterprise-counters) and putting me up to this.
+- [shrugs](https://github.com/shrugs), author of the one and
+  only[`Counters.sol`](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Counters.sol).
+- [karmacoma](https://github.com/karmacoma-eth), for
+  creating [`enterprise-counters`](https://github.com/karmacoma-eth/enterprise-counters) and putting me up to this.
 - [dapphub](https://github.com/dapphub) and [Maker](https://github.com/makerdao) for the greatest contracts of all time.
