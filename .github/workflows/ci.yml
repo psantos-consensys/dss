@@ -25,4 +25,6 @@ jobs:
           FUZZ_API_KEY: ${{ secrets.FUZZ_API_KEY }}
           FUZZ_PROJECT: ${{ github.repository }}
           FUZZ_TIME_LIMIT: 1h
-        run: fuzz forge test
+        run: |
+          ls
+          fuzz forge test
