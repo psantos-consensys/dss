@@ -11,15 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
-
-      - name: Install diligence fuzzing
-        run: pip3 install diligence-fuzzing
-
-      - name: Run fuzz foundry
-        env:
-          FUZZ_API_KEY: ${{ secrets.FUZZ_API_KEY }}
-          FUZZ_PROJECT: ${{ github.repository }}
-          FUZZ_TIME_LIMIT: 1h
-        run: fuzz forge test
+      - name: Test Action
+        uses: ./.github/actions/
+        with:
+          checkout: false
+          fuzz_api_key: ${{ secrets.FUZZ_API_KEY }}
+          fuzz_project: ${{ github.repository }}
